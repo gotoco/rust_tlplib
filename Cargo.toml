@@ -10,4 +10,4 @@ repository = "https://github.com/gotoco/rust_tlplib"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bitfield = { git = "https://github.com/dzamlo/rust-bitfield" }
+bitfield = "0.13.2"
