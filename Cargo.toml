@@ -3,7 +3,7 @@ name = "rtlp-lib"
 version = "0.1.0"
 edition = "2021"
 authors = ["Maciej Grochowski <maciej.grochowski@pm.me>"]
-license = "BSD"
+license = "BSD-3-Clause"
 description = "This create provide structures to parse PCI TLPs"
 repository = "https://github.com/gotoco/rust_tlplib"
 
