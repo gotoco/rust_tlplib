@@ -630,7 +630,7 @@ impl TlpPacketHeader {
 /// let packet = TlpPacket::new(bytes);
 ///
 /// let header = packet.get_header();
-/// // TLP Type tells us what packet is that
+/// // TLP Type tells us what is this packet
 /// let tlp_type = header.get_tlp_type().unwrap();
 /// let tlp_format = packet.get_tlp_format();
 /// let requester_id;
@@ -656,7 +656,6 @@ impl TlpPacketHeader {
 ///      TlpType::LocalTlpPrefix |
 ///      TlpType::EndToEndTlpPrefix => println!("I need to implement TLP Type: {:?}", tlp_type),
 /// }
-///
 /// ```
 pub struct TlpPacket {
     header: TlpPacketHeader,

@@ -1,12 +1,12 @@
-rust_tlplib
+Rust TLP lib
 =============
 
-This create provide structs and functions to parse PCI TLP packets.
+This crate provide structs and functions to parse PCI TLP packets.
 
 
 ## Example
 
-```
+```rust
 use rtlp_lib::TlpPacket;
 use rtlp_lib::TlpFmt;
 use rtlp_lib::TlpType;
@@ -25,7 +25,7 @@ let header = packet.get_header();
 let tlp_type = header.get_tlp_type().unwrap();
 let tlp_format = packet.get_tlp_format();
 
-// Get requester_id field from this TLP (TLP can be of different types) 
+// Get requester_id field from this TLP (TLP can be of different types)
 let requester_id;
 match (tlp_type) {
      TlpType::MemReadReq |
