@@ -184,6 +184,13 @@ impl<T: AsRef<[u8]>> TlpHeader<T> {
 					_ => Err(()),
 				}
 			}
+            Ok(TlpFormatEncodingType::ConfigType1Request) => {
+                    match TlpFmt::try_from(tlp_fmt) {
+                            Ok(TlpFmt::NoDataHeader3DW) => Ok(TlpType::ConfType1ReadReq),
+                            Ok(TlpFmt::WithDataHeader3DW) => Ok(TlpType::ConfType1WriteReq),
+                            _ => Err(()),
+                    }
+            }
 			Ok(TlpFormatEncodingType::Completion) => {
 				println!("Completion fmt: {}", tlp_fmt);
 				match TlpFmt::try_from(tlp_fmt) {
@@ -217,31 +224,6 @@ impl<T: AsRef<[u8]>> TlpHeader<T> {
 				match TlpFmt::try_from(tlp_fmt) {
 					Ok(TlpFmt::WithDataHeader3DW) => Ok(TlpType::CompareSwapAtomicOpReq),
 					Ok(TlpFmt::WithDataHeader4DW) => Ok(TlpType::CompareSwapAtomicOpReq),
-					_ => Err(()),
-				}
-			}
-			Ok(_) => {
-				match TlpFmt::try_from(tlp_fmt) {
-					Ok(TlpFmt::TlpPrefix) => {
-						match tlp_type & 0b10000 {
-							0b10000 => Ok(TlpType::LocalTlpPrefix),
-							_ => Ok(TlpType::EndToEndTlpPrefix),
-						}
-					}
-					Ok(TlpFmt::NoDataHeader4DW) => {
-						if (tlp_type >> 3) == 0b10 {
-							Ok(TlpType::MsgReqData)
-						} else {
-							Err(())
-						}
-					}
-					Ok(TlpFmt::WithDataHeader4DW) => {
-						if (tlp_type >> 3) == 0b10 {
-							Ok(TlpType::MsgReq)
-						} else {
-							Err(())
-						}
-					}
 					_ => Err(()),
 				}
 			}
@@ -815,6 +797,14 @@ mod tests {
 		// Config Type 0 Write request: FMT: '010' Type '0 0100'
 		let conf_t0_write = TlpHeader([0x44, 0x00, 0x00, 0x01]);
 		assert_eq!(conf_t0_write.get_tlp_type().expect("Cannot Parse TLP!"), TlpType::ConfType0WriteReq);
+
+        // Config Type 1 Read request: FMT: '000' Type '0 0101'
+        let conf_t1_read = TlpHeader([0x05, 0x88, 0x80, 0x01]);
+               assert_eq!(conf_t1_read.get_tlp_type().expect("Cannot Parse TLP!"), TlpType::ConfType1ReadReq);
+
+        // Config Type 1 Read request: FMT: '010' Type '0 0101'
+        let conf_t1_write = TlpHeader([0x45, 0x88, 0x80, 0x01]);
+               assert_eq!(conf_t1_write.get_tlp_type().expect("Cannot Parse TLP!"), TlpType::ConfType1WriteReq);
 
         // HeaderLog: 04000001 0000220f 01070000 af36fc70
         // HeaderLog: 60009001 4000000f 00000280 4047605c
