@@ -55,7 +55,7 @@ println!("Requester ID from This TLP Packet: {}", requester_id);
 
 ## Documentation
 
-The documentation of the released version is available on [doc.rs](https://docs.rs/rust_tlplib).
+The documentation of the released version is available on [doc.rs](https://docs.rs/rtlp-lib).
 To generate current documentation please run `cargo new docs --lib`
 
 ## License
